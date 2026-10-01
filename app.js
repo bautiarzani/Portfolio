@@ -1,7 +1,7 @@
 
 const IMG = {"nubeHero": "nubeHero.jpg", "nubeRoom": "nubeRoom.jpg", "nubeEarly": "nubeEarly.jpg", "nubeDark": "nubeDark.jpg", "nubeProduct": "nubeProduct.jpg", "nubeDespiece": "nubeDespiece.jpg", "cmHero": "cmHero.jpg", "cmLam1": "cmLam1.jpg", "cmLam2": "cmLam2.jpg", "cmUso": "cmUso.jpg", "cmFunc": "cmFunc.jpg", "bqHero": "bqHero.jpg", "bqProd": "bqProd.jpg", "bqPack": "bqPack.jpg", "bqOpen": "bqOpen.jpg", "bqApertura": "bqApertura.jpg", "bqLam1": "bqLam1.jpg", "hd10": "hd10.jpg", "hd12": "hd12.jpg", "hd13": "hd13.jpg", "hd14": "hd14.jpg", "hd15": "hd15.jpg", "gotexBoceto": "gotexBoceto.jpg", "gotexL1": "gotexL1.jpg", "gotexL3": "gotexL3.jpg", "gotexL4": "gotexL4.jpg", "gotexL5": "gotexL5.jpg", "bqLam2": "bqLam2.jpg", "pFinal": "pFinal.jpg", "pThumb": "pThumb.jpg", "pLamina": "pLamina.jpg", "pExplot": "pExplot.jpg", "pBanco": "pBanco.jpg", "pProceso": "pProceso.jpg", "pAnclaje": "pAnclaje.jpg", "pModular": "pModular.jpg", "cmThumb": "cmThumb.jpg", "hdThumb": "hdThumb.jpg", "meSq": "meSq.jpg", "cert": "cert.jpg"};
 
-/* si una imagen no está en la raíz, la busca en la carpeta img/ (y al revés) */
+/* si una imagen no está en la raíz, la busca en img/ (y al revés) */
 document.addEventListener('error',e=>{const t=e.target;if(!t||t.tagName!=='IMG'||t.dataset.retry)return;t.dataset.retry=1;const u=t.getAttribute('src')||'';if(u.startsWith('data:'))return;t.src=u.startsWith('img/')?u.slice(4):'img/'+u.split('/').pop()},true);
 
 /* ilustraciones de línea fina para proyectos sin render */
