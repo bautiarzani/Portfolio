@@ -108,7 +108,8 @@ p{margin:0}
 /* HERO */
 .hero{padding-block:clamp(24px,5vw,56px) clamp(40px,6vw,80px)}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(24px,4vw,56px);align-items:center}
-@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.stage{max-width:420px;order:-1}}
+@media (max-width:600px){.stage{max-width:min(300px,78vw)}}
 .hero .kick{color:var(--ink-2);font-size:clamp(1rem,1.8vw,1.25rem);font-weight:300}
 .hero h1{font-size:clamp(3.2rem,9.5vw,7.6rem);font-weight:200;line-height:.95;letter-spacing:-.01em;margin-block:22px 26px}
 .hero h1 b{font-weight:400;display:block}
@@ -123,8 +124,8 @@ p{margin:0}
 .btn.solid:hover{box-shadow:0 10px 30px var(--glow)}
 .btn:hover{transform:translateY(-2px)}
 .btn .arr{transition:transform .3s}.btn:hover .arr{transform:translateX(4px)}
-.stage{position:relative;aspect-ratio:1/1.05;max-width:100%}
-.stage .b1{position:absolute;inset:0 8% 18% 0;animation:morph 14s ease-in-out infinite,floaty 9s ease-in-out infinite}
+.stage{position:relative;aspect-ratio:1;width:100%;max-width:520px;justify-self:center}
+.stage .b1{position:absolute;inset:0;animation:morph 14s ease-in-out infinite,floaty 9s ease-in-out infinite}
 .stage .b2{position:absolute;width:52%;aspect-ratio:1.25;right:0;bottom:0;animation:morph 12s ease-in-out infinite reverse,floaty 11s ease-in-out infinite reverse;border:6px solid var(--bg)}
 .stage .tagc{position:absolute;left:4%;bottom:6%;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:.78rem;display:flex;gap:10px;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,.08)}
 .stage .tagc i{width:8px;height:8px;border-radius:50%;background:var(--sun)}
@@ -135,7 +136,7 @@ p{margin:0}
 .stage .mosaic img{width:100%;height:100%;object-fit:cover}
 .stage .t1{left:-2%;bottom:24%;top:auto}.stage .t2{left:auto;right:2%;top:6%;bottom:auto}.stage .t3{left:8%;bottom:4%}
 .stage .tagc{animation:floaty 7s ease-in-out infinite}.stage .t2{animation-delay:-2s}.stage .t3{animation-delay:-4s}
-.stage .halo{position:absolute;width:38%;aspect-ratio:1;left:-6%;top:-6%;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%);filter:blur(10px);z-index:-1}
+.stage .halo{position:absolute;width:46%;aspect-ratio:1;left:-8%;top:-8%;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%);filter:blur(10px);z-index:-1}
 
 /* marquee */
 .marquee{overflow:hidden;white-space:nowrap;padding-block:6px}
@@ -527,10 +528,6 @@ V.inicio=()=>`
   <div class="stage me" aria-hidden="true">
     <span class="halo"></span>
     <div class="blob b1 rings-wrap"><img src="${IMG.meSq}" alt="Juan Bautista Arzani" style="object-position:50% 50%"></div>
-    <div class="blob b2 mosaic">${['cmThumb','bqProd','pThumb','nubeProduct'].map(k=>`<img src="${IMG[k]}" alt="">`).join('')}</div>
-    <div class="tagc t1"><i></i>Diseño de producto</div>
-    <div class="tagc t2"><i></i>Web y UX</div>
-    <div class="tagc t3"><i></i>Negocios</div>
   </div>
 </div></header>
 <div class="marquee" aria-hidden="true"><div class="track">${[...Array(2)].flatMap(()=>['Diseño de producto','Mobiliario urbano','Packaging','Diseño web y UX','Modelado 3D','Láminas y renders','Dirección de arte','Identidad de marca']).map(t=>`<span>${t}</span>`).join('')}</div></div>
@@ -713,7 +710,7 @@ function wire(){
   const r=document.getElementById('rings');if(r)rings(r);
   // parallax suave en el hero
   const st=app.querySelector('.stage');
-  if(st&&!reduce)st.parentElement.addEventListener('pointermove',e=>{const b=st.getBoundingClientRect();const x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;st.querySelector('.b1 img').style.transform=`scale(1.08) translate(${x*-14}px,${y*-14}px)`;st.querySelector('.b2 img').style.transform=`scale(1.1) translate(${x*18}px,${y*18}px)`});
+  if(st&&!reduce)st.parentElement.addEventListener('pointermove',e=>{const b=st.getBoundingClientRect();const x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;st.querySelector('.b1 img').style.transform=`scale(1.08) translate(${x*-14}px,${y*-14}px)`});
   app.querySelectorAll('a,button').forEach(a=>{a.addEventListener('mouseenter',()=>cur.classList.add('big'));a.addEventListener('mouseleave',()=>cur.classList.remove('big'))});
 }
 
