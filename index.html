@@ -18,17 +18,17 @@
 /* Layout: láminas de presentación — bandas redondeadas amarillo Solar / gris piedra con divisor fino, imágenes en máscaras orgánicas, títulos livianos con filete vertical */
 :root{
   --bg:#F3F2EF; --surface:#FFFFFF; --stone:#ADAAA4; --stone-2:#E3E1DC; --ink:#26252A; --ink-2:#6C6964; --line:#D9D7D2;
-  --sun:#8A9DB0; --sun-ink:#FFFFFF; --graphite:#2C2B30; --on-band:#FFFFFF; --glow:rgba(138,157,176,.30);
+  --bg-2:#E8E6E1; --sun:#8A9DB0; --sun-ink:#FFFFFF; --graphite:#2C2B30; --on-band:#FFFFFF; --glow:rgba(138,157,176,.30);
   --f-display:"Urbanist", "Avenir Next", "Century Gothic", system-ui, sans-serif;
   --f-body:"Poppins", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --r-xl:40px; --r-lg:28px; --r-md:18px;
   --gut:clamp(16px,4vw,48px); --max:1240px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#141416; --surface:#1C1C20; --stone:#4A4844; --stone-2:#232327; --ink:#EEEDEA; --ink-2:#A6A39D; --line:#2E2E33;
+  --bg:#141416; --bg-2:#1A1A1E; --surface:#1C1C20; --stone:#4A4844; --stone-2:#232327; --ink:#EEEDEA; --ink-2:#A6A39D; --line:#2E2E33;
   --sun:#9DB0C2; --sun-ink:#141416; --graphite:#2E2D33; --on-band:#FFFFFF; --glow:rgba(157,176,194,.20); color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#141416; --surface:#1C1C20; --stone:#4A4844; --stone-2:#232327; --ink:#EEEDEA; --ink-2:#A6A39D; --line:#2E2E33;
+  --bg:#141416; --bg-2:#1A1A1E; --surface:#1C1C20; --stone:#4A4844; --stone-2:#232327; --ink:#EEEDEA; --ink-2:#A6A39D; --line:#2E2E33;
   --sun:#9DB0C2; --sun-ink:#141416; --graphite:#2E2D33; --on-band:#FFFFFF; --glow:rgba(157,176,194,.20); color-scheme:dark }
 
 *{box-sizing:border-box}
@@ -176,6 +176,8 @@ p{margin:0}
 .cert-txt .lbl{color:var(--ink-2)}
 .cert-txt .more{justify-self:start}
 .masonry.two-col{columns:2 320px}
+/* secciones alternadas */
+.view>section.sec:nth-of-type(even){background:var(--bg-2);border-block:1px solid var(--line)}
 /* panels */
 .panel{background:var(--surface);border-radius:var(--r-xl);padding:clamp(24px,4vw,48px);border:1px solid var(--line)}
 .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,28px)}
@@ -288,6 +290,7 @@ p{margin:0}
 .cgrid > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;display:grid;gap:10px;align-content:start;min-width:0}
 .cgrid > div.sun{background:var(--graphite);border-color:var(--graphite);color:#F1F0EC}
 .cgrid .val{font-family:var(--f-display);font-size:1.25rem;font-weight:400;word-break:break-word;user-select:all}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
 .copy{justify-self:start;background:none;border:1px solid currentColor;color:inherit;border-radius:999px;padding:7px 16px;font-family:var(--f-body);font-size:.8rem;cursor:pointer;text-decoration:none}
 form{display:grid;gap:14px;max-width:680px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:clamp(22px,4vw,40px)}
 label{display:grid;gap:6px;font-size:.84rem;color:var(--ink-2)}
@@ -485,19 +488,19 @@ V.inicio=()=>`
   ${band('Qué hago','Tres áreas','Producto · UX · Negocios',true)}
   <div class="areas">${areas.map(x=>`<a class="area rv" href="${x.href}"><span class="ico">${x.ico}</span><h3>${x.t}</h3><p>${x.d}</p><span class="go">${x.n} →</span></a>`).join('')}</div>
 </div></section>
-<section class="sec" style="padding-top:0"><div class="wrap split">
+<section class="sec"><div class="wrap split">
   <div class="portrait rv"><div class="blob mosaic2">${['bqOpen','nubeProduct','cmThumb','pThumb'].map(k=>`<img src="${IMG[k]}" alt="">`).join('')}</div></div>
   <div class="prose rv"><p class="lbl" style="color:var(--ink-2)">Sobre mí</p><p class="big">Me muevo entre el objeto, la pantalla y el negocio.</p><p>Estudio Diseño, Tecnología y Negocios, trabajé un año como diseñador web y UX para una agencia de Miami y diseñé para clientes reales y me interesan los proyectos que combinan creatividad, funcionalidad y una base conceptual sólida.</p><a class="more" href="#sobre" style="justify-self:start">Mi perfil completo →</a></div>
 </div></section>
-<section class="sec" style="padding-top:0"><div class="wrap">
+<section class="sec"><div class="wrap">
   ${band('Proyectos<br>destacados','Selección','',false,'<a class="more" href="#proyectos">Ver todos →</a>')}
   <div class="masonry two-col">${projects.filter(p=>p.featured).map(p=>card(p)).join('')}</div>
 </div></section>
-<section class="sec" style="padding-top:0"><div class="wrap">
+<section class="sec"><div class="wrap">
   ${band('Herramientas','Lo que uso','',true,'<a class="more" href="#herramientas">Ver detalle →</a>')}
   <div class="pills big rv">${[...new Set(tools.flatMap(t=>t[1]))].map(t=>`<span class="pill">${t}</span>`).join('')}</div>
 </div></section>
-<section class="sec" style="padding-top:0"><div class="wrap">
+<section class="sec"><div class="wrap">
   ${band('Logros','Reconocimiento','',true)}
   <div class="cert rv"><div class="cert-img"><img src="${IMG.cert}" alt="Certificado de Primer Premio, Alianzas Creativas 2026, Concurso Solar"></div><div class="cert-txt"><span class="lbl">Primer premio · Junio 2026</span><h3>Alianzas Creativas 2026</h3><p>Trabajos Reales para Clientes Reales · Concurso Solar, categoría Innovación en equipamiento.</p><p>Otorgado por Solar, Metrar y la Facultad de Diseño y Comunicación de la Universidad de Palermo al proyecto <b>Gravedad cero</b>.</p><a class="more" href="#gravedad-cero">Ver el proyecto →</a></div></div>
 </div></section>`;
@@ -520,7 +523,7 @@ V.sobre=()=>`
     </div>
   </div>
 </div></section>
-<section class="sec" style="padding-top:0"><div class="wrap">
+<section class="sec"><div class="wrap">
   ${band('En qué me<br>destaco','y qué estoy','trabajando',true)}
   <div class="two">
     <div class="panel sunp rv"><h3>Me destaco en</h3><ul class="skl">
@@ -552,7 +555,7 @@ V.experiencia=()=>`
   ${band('Experiencia','Trayectoria','Diseño de producto y UX')}
   <div class="tl">${exp.map(e=>`<article class="tl-item rv ${e.hl?'hl':''}"><span class="when">${e.when}</span><div><h3>${e.t}</h3><span class="org">${e.org}</span><p>${e.d}</p>${e.li.length?`<ul>${e.li.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}${e.uni?`<div class="uni">${projects.map(p=>`<a href="#${p.id}"><span class="th">${cover(p)}</span><span><b>${p.title}</b><small>${p.sub}</small></span></a>`).join('')}</div>`:''}</div><span class="kind">${e.kind}</span></article>`).join('')}</div>
 </div></section>
-<section class="sec" style="padding-top:0"><div class="wrap">
+<section class="sec"><div class="wrap">
   ${band('Logros','Reconocimiento','',true)}
   <div class="cert rv"><div class="cert-img"><img src="${IMG.cert}" alt="Certificado de Primer Premio, Alianzas Creativas 2026, Concurso Solar"></div><div class="cert-txt"><span class="lbl">Primer premio · Junio 2026</span><h3>Alianzas Creativas 2026</h3><p>Trabajos Reales para Clientes Reales · Concurso Solar, categoría Innovación en equipamiento.</p><p>Otorgado por Solar, Metrar y la Facultad de Diseño y Comunicación de la Universidad de Palermo al proyecto <b>Gravedad cero</b>.</p><a class="more" href="#gravedad-cero">Ver el proyecto →</a></div></div>
 </div></section>`;
@@ -596,18 +599,13 @@ V.contacto=()=>`
 <section class="sec"><div class="wrap contact">
   <div class="c-me"><img src="${IMG.meSq}" alt=""><p class="kick ruled" style="color:var(--ink-2)">Contacto</p></div>
   <h2>Hablemos de<br><b>tu proyecto.</b></h2>
+  <p class="lede" style="color:var(--ink-2);max-width:46ch;margin-top:18px">Para pasantías, proyectos o colaboraciones, escribime por mail o por LinkedIn. Respondo a la brevedad.</p>
   <div class="cgrid">
-    <div class="sun"><span class="lbl">Email</span><span class="val" id="mail">bautiarzani@gmail.com</span><button class="copy" data-copy="mail" type="button">Copiar</button></div>
+    <div class="sun"><span class="lbl">Email</span><span class="val" id="mail">bautiarzani@gmail.com</span><div class="acts"><a class="copy" href="mailto:bautiarzani@gmail.com">Escribime ↗</a><button class="copy" data-copy="mail" type="button">Copiar</button></div></div>
     <div><span class="lbl">LinkedIn</span><span class="val">juan-bautista-arzani</span><a class="copy" href="https://www.linkedin.com/in/juan-bautista-arzani-8886b1357" target="_blank" rel="noopener">Ver perfil ↗</a></div>
     <div><span class="lbl">Ubicación</span><span class="val">Buenos Aires</span><span class="note">Presencial o remoto.</span></div>
   </div>
-  <form id="cform" novalidate>
-    <label for="cn">Nombre<input id="cn" required autocomplete="name"></label>
-    <label for="ce">Email<input id="ce" type="email" required autocomplete="email"></label>
-    <label for="cm">Mensaje<textarea id="cm" rows="5" required></textarea></label>
-    <button class="btn solid" type="submit" style="justify-self:start">Preparar mensaje <span class="arr">→</span></button>
-    <p class="note" id="cnote" aria-live="polite">El formulario arma el texto para que lo copies y lo envíes al mail de arriba.</p>
-  </form>
+
 </div></section>`;
 
 V.project=p=>{const i=projects.indexOf(p),prev=projects[(i-1+projects.length)%projects.length],next=projects[(i+1)%projects.length];return `
@@ -663,11 +661,6 @@ function wire(){
     try{await navigator.clipboard.writeText(el.textContent);b.textContent='Copiado'}catch(e){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Seleccionado'}
     setTimeout(()=>b.textContent='Copiar',1800);
   }));
-  const f=document.getElementById('cform');
-  if(f)f.addEventListener('submit',async e=>{e.preventDefault();const n=f.cn.value.trim(),em=f.ce.value.trim(),m=f.cm.value.trim(),note=document.getElementById('cnote');
-    if(!n||!em||!m){note.textContent='Completá nombre, email y mensaje para armar el texto.';return}
-    const txt=`Hola Bauti, soy ${n} (${em}).\n\n${m}`;
-    try{await navigator.clipboard.writeText(txt);note.textContent='Mensaje copiado. Pegalo en un mail a bautiarzani@gmail.com.'}catch(_){f.cm.value=txt;f.cm.select();note.textContent='Seleccioné el mensaje: copialo y envialo a bautiarzani@gmail.com.'}});
   const r=document.getElementById('rings');if(r)rings(r);
   // parallax suave en el hero
   const st=app.querySelector('.stage');
