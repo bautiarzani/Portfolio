@@ -55,11 +55,45 @@ p{margin:0}
 .links a:hover{color:var(--ink);background:var(--stone-2)}
 .links a[aria-current="page"]{background:var(--ink);color:var(--bg)}
 .menu-btn{display:none;background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:9px 18px;font-family:var(--f-body);font-size:.84rem;cursor:pointer}
+/* menú móvil: panel de pantalla completa, fuera de la barra */
+.mnav{display:none}
 @media (max-width:900px){
-  .menu-btn{display:block}
-  .links{display:none;position:absolute;left:0;right:0;top:calc(100% + 8px);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:12px;flex-direction:column}
-  .links.open{display:flex}
-  .links a{font-size:1rem;padding:10px 16px}
+  .menu-btn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:10px 18px}
+  .menu-btn .ic{position:relative;width:16px;height:10px;display:inline-block}
+  .menu-btn .ic::before,.menu-btn .ic::after{content:"";position:absolute;left:0;right:0;height:1.5px;background:currentColor;border-radius:2px;transition:transform .35s cubic-bezier(.2,.8,.2,1),top .35s}
+  .menu-btn .ic::before{top:0}.menu-btn .ic::after{top:8.5px}
+  .menu-btn[aria-expanded="true"] .ic::before{top:4.25px;transform:rotate(45deg)}
+  .menu-btn[aria-expanded="true"] .ic::after{top:4.25px;transform:rotate(-45deg)}
+  .links{display:none}
+  .mnav{display:flex;flex-direction:column;position:fixed;inset:0;z-index:49;background:var(--bg);
+    padding:calc(env(safe-area-inset-top,0px) + 96px) var(--gut) calc(env(safe-area-inset-bottom,0px) + 28px);
+    overflow-y:auto;visibility:hidden;opacity:0;transform:translateY(-12px);
+    transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s}
+  .mnav.open{visibility:visible;opacity:1;transform:none;transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s}
+  .mnav ul{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--line)}
+  .mnav li{border-bottom:1px solid var(--line)}
+  .mnav a.it{display:flex;align-items:baseline;gap:18px;min-height:64px;padding:16px 6px;text-decoration:none;color:var(--ink);font-family:var(--f-display);font-weight:300;font-size:clamp(1.7rem,7.5vw,2.4rem);line-height:1.1;transition:padding-left .3s,color .3s}
+  .mnav a.it small{font-family:var(--f-body);font-size:.72rem;color:var(--ink-2);min-width:22px;letter-spacing:.06em}
+  .mnav a.it:active,.mnav a.it:hover{padding-left:14px}
+  .mnav a.it[aria-current="page"]{font-weight:400}
+  .mnav a.it[aria-current="page"]::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--sun);margin-left:auto;align-self:center}
+  .mnav.open li{animation:mnin .5s cubic-bezier(.2,.8,.2,1) both}
+  .mnav.open li:nth-child(2){animation-delay:.03s}.mnav.open li:nth-child(3){animation-delay:.06s}.mnav.open li:nth-child(4){animation-delay:.09s}.mnav.open li:nth-child(5){animation-delay:.12s}.mnav.open li:nth-child(6){animation-delay:.15s}.mnav.open li:nth-child(7){animation-delay:.18s}
+  .mnav .foot{margin-top:auto;padding-top:32px;display:grid;gap:12px}
+  .mnav .foot .lbl{color:var(--ink-2)}
+  .mnav .foot a{font-size:1rem;color:var(--ink);text-decoration:none;word-break:break-word}
+  .mnav .foot .row{display:flex;flex-wrap:wrap;gap:10px}
+  .mnav .foot .row a{border:1px solid var(--line);border-radius:999px;padding:10px 18px;min-height:44px;display:inline-flex;align-items:center;font-size:.9rem;background:var(--surface)}
+  html.menu-open,html.menu-open body{overflow:hidden}
+}
+@keyframes mnin{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:420px){.nav .bar{padding-left:18px}.logo{font-size:1.1rem}}
+@media (max-width:900px) and (max-height:520px){
+  .mnav{padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+  .mnav ul{grid-template-columns:1fr 1fr;column-gap:24px;border-top:0}
+  .mnav li{border-top:0}
+  .mnav a.it{min-height:52px;padding:10px 6px;font-size:1.5rem}
+  .mnav .foot{padding-top:20px}
 }
 
 /* BLOB */
@@ -364,7 +398,7 @@ footer .bar span{opacity:.85}
 <nav class="nav" aria-label="Principal">
   <div class="wrap"><div class="bar">
     <a class="logo" href="#inicio"><i></i>bauti arzani</a>
-    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="links">Menú</button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mnav"><span class="ic" aria-hidden="true"></span><span class="tx">Menú</span></button>
     <ul class="links" id="links">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#sobre">Sobre mí</a></li>
@@ -376,6 +410,22 @@ footer .bar span{opacity:.85}
     </ul>
   </div></div>
 </nav>
+<div class="mnav" id="mnav" aria-label="Menú" hidden>
+  <ul>
+    <li><a class="it" href="#inicio"><small>01</small>Inicio</a></li>
+    <li><a class="it" href="#sobre"><small>02</small>Sobre mí</a></li>
+    <li><a class="it" href="#proyectos"><small>03</small>Proyectos</a></li>
+    <li><a class="it" href="#experiencia"><small>04</small>Experiencia</a></li>
+    <li><a class="it" href="#herramientas"><small>05</small>Herramientas</a></li>
+    <li><a class="it" href="#cv"><small>06</small>CV</a></li>
+    <li><a class="it" href="#contacto"><small>07</small>Contacto</a></li>
+  </ul>
+  <div class="foot">
+    <span class="lbl">Contacto</span>
+    <a href="mailto:bautiarzani@gmail.com">bautiarzani@gmail.com</a>
+    <div class="row"><a href="https://www.linkedin.com/in/juan-bautista-arzani-8886b1357" target="_blank" rel="noopener">LinkedIn ↗</a><a href="#cv">Ver CV</a></div>
+  </div>
+</div>
 
 <main id="app"></main>
 
@@ -637,9 +687,8 @@ function route(){
   const p=projects.find(x=>x.id===h);
   const key=p?'proyectos':(V[h]?h:'inicio');
   app.innerHTML=`<div class="view">${p?V.project(p):V[key]()}</div>`;
-  document.querySelectorAll('.links a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+key?'page':'false'));
-  document.getElementById('links').classList.remove('open');
-  document.getElementById('menuBtn').setAttribute('aria-expanded','false');
+  document.querySelectorAll('.links a,.mnav a.it').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+key?'page':'false'));
+  setMenu(false);
   window.scrollTo(0,0);
   wire();
 }
@@ -684,7 +733,18 @@ function rings(c){
 const cur=document.getElementById('cursor');
 addEventListener('pointermove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 
-document.getElementById('menuBtn').addEventListener('click',e=>{const l=document.getElementById('links');l.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',l.classList.contains('open'))});
+const mnav=document.getElementById('mnav'),mbtn=document.getElementById('menuBtn');let mt;
+function setMenu(open){
+  if(!mnav)return;clearTimeout(mt);
+  mbtn.setAttribute('aria-expanded',open);mbtn.querySelector('.tx').textContent=open?'Cerrar':'Menú';
+  document.documentElement.classList.toggle('menu-open',open);
+  if(open){mnav.hidden=false;requestAnimationFrame(()=>mnav.classList.add('open'))}
+  else{mnav.classList.remove('open');mt=setTimeout(()=>{if(!mnav.classList.contains('open'))mnav.hidden=true},450)}
+}
+mbtn.addEventListener('click',()=>setMenu(mbtn.getAttribute('aria-expanded')!=='true'));
+mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+addEventListener('resize',()=>{if(innerWidth>900)setMenu(false)});
 const modes=['sistema','claro','oscuro'];let mi=0;
 try{mi=Math.max(0,modes.indexOf(localStorage.getItem('ba-theme')||'sistema'))}catch(e){}
 function applyTheme(){const m=modes[mi];if(m==='sistema')document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme',m==='claro'?'light':'dark');document.getElementById('themeBtn').textContent='Tema: '+m;try{localStorage.setItem('ba-theme',m)}catch(e){}}
